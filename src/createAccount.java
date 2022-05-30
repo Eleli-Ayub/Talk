@@ -1,9 +1,12 @@
 package src;
+import java.sql.*;
 
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Color;
 import java.awt.Font;
 import javax.swing.JPanel;
@@ -14,18 +17,73 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 public class createAccount {
+	
+	
+	
 
 	private JFrame frame;
-	private JTextField firstNameInput;
-	private JTextField lastNameInput;
-	private JPasswordField createAccountPassword;
-	private JPasswordField createAccountConfirmPassword;
-	private JTextField userEmailInput;
+	private static JTextField firstNameInput;
+	private static JTextField lastNameInput;
+	private static JPasswordField createAccountPassword;
+	private static JPasswordField createAccountConfirmPassword;
+	private static JTextField userEmailInput;
+	
+	public void registerUser() {
+		String url = "jdbc:mysql://localhost:3306/user1";
+		String uName = "root";
+		String pass = "";
+		try {
+			
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			Connection connection = DriverManager.getConnection(url,uName,pass);
+			String firstName = firstNameInput.getText();
+			String lastName = lastNameInput.getText();
+			String email = userEmailInput.getText();
+			String password = createAccountPassword.getText();
+			String confirmPassword = createAccountConfirmPassword.getText();
+			
+			String registerQuery = "INSERT INTO users (firstName, lastName, email, password) VALUES (?,?,?,?)";
+			
+			if(firstName.length() != 0) {
+				if(lastName.length() != 0) {
+					if(email.contains("@.com")) {	
+						if(password == confirmPassword) {
+							
+							PreparedStatement pd = connection.prepareStatement(registerQuery);
+							
+							pd.setString(1,firstName);
+							pd.setString(2,lastName);
+							pd.setString(3,email);
+							pd.setString(4,password);
+							
+							pd.executeUpdate();
+										
+							JOptionPane.showMessageDialog(null, firstName + " user has been created. Proceed to Login. Redirecting to Login Page");
+							
+							loginPage loginpage = new loginPage();
+							loginpage.main(null);
+							frame.dispose();
+						}else {
+							JOptionPane.showMessageDialog(null, "Passwords Don't match");
+						}
+					}else {
+						JOptionPane.showMessageDialog(null, "Invalid Email");
+					}
+				}else {
+					JOptionPane.showMessageDialog(null, "Invalid Last Name");
+				}				
+			}else {
+				JOptionPane.showMessageDialog(null, "Invalid First Name");
 
-	/**
-	 * Launch the application.
-	 */
+			}
+			
+		} catch (ClassNotFoundException | SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+	}
 	public static void main(String[] args) {
+				
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -89,6 +147,11 @@ public class createAccount {
 		panel.add(lblPassword);
 		
 		JButton btnCreateAccount = new JButton("Create");
+		btnCreateAccount.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e) {
+				registerUser();
+			}
+		});
 		btnCreateAccount.setToolTipText("Create Account Button");
 		btnCreateAccount.setFont(new Font("Dialog", Font.BOLD, 17));
 		btnCreateAccount.setBackground(Color.GRAY);

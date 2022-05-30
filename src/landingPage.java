@@ -11,6 +11,8 @@ import java.awt.Font;
 import java.awt.SystemColor;
 import javax.swing.border.TitledBorder;
 import javax.swing.border.LineBorder;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class landingPage {
 
@@ -61,26 +63,62 @@ public class landingPage {
 		panel.setLayout(null);
 		
 		JButton btnNewButton = new JButton("Work Space");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				workspace workspace = new workspace();
+				workspace.main(null);
+				frame.dispose();
+				
+			}
+		});
 		btnNewButton.setBackground(SystemColor.windowBorder);
 		btnNewButton.setBounds(24, 12, 129, 78);
 		panel.add(btnNewButton);
 		
 		JButton btnMyFiles = new JButton("My FIles");
+		btnMyFiles.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				files files = new files();
+				files.main(null);
+				frame.dispose();
+			}
+		});
 		btnMyFiles.setBackground(SystemColor.windowBorder);
 		btnMyFiles.setBounds(24, 97, 129, 78);
 		panel.add(btnMyFiles);
 		
 		JButton btnEntertainment = new JButton("Entertainment");
+		btnEntertainment.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				entertainment entertainment = new entertainment();
+				entertainment.main(null);
+				frame.dispose();
+			}
+		});
 		btnEntertainment.setBackground(SystemColor.windowBorder);
 		btnEntertainment.setBounds(24, 187, 129, 78);
 		panel.add(btnEntertainment);
 		
 		JButton btnSocialSpace = new JButton("Social Space");
+		btnSocialSpace.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				myspace myspace = new myspace();
+				myspace.main(null);
+				frame.dispose();
+			}
+		});
 		btnSocialSpace.setBackground(SystemColor.windowBorder);
 		btnSocialSpace.setBounds(24, 280, 129, 78);
 		panel.add(btnSocialSpace);
 		
 		JButton btnMySchedule = new JButton("My Schedule");
+		btnMySchedule.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				schedule schedule = new schedule();
+				schedule.main(null);
+				frame.dispose();
+			}
+		});
 		btnMySchedule.setBackground(SystemColor.windowBorder);
 		btnMySchedule.setBounds(24, 369, 129, 78);
 		panel.add(btnMySchedule);
